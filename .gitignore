@@ -1,0 +1,5 @@
+# OS / editor junk
+*.log
+.DS_Store
+*.swp
+*~
