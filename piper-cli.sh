@@ -1,5 +1,6 @@
 #!/bin/bash
-TTS_DIR="/home/rizzo/.openclaw/workspace/projects/GLaDOS-TTS"
+# Resolve the directory this script lives in, so it works regardless of CWD.
+TTS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PIPER_BIN="$TTS_DIR/piper"
 MODEL="$TTS_DIR/en_US-glados-medium.onnx"
 

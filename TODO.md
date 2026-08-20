@@ -13,4 +13,4 @@
 
 ## Documentation
 - [ ] **Update README.md**: Add detailed installation steps for other environments.
-- [ ] **Create ROADMAP.md**: Define future expansions.
+- [x] **Create ROADMAP.md**: Define future expansions.
