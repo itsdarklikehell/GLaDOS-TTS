@@ -10,12 +10,36 @@ This project provides a wrapper around the Piper TTS engine to allow for easy ge
 - **Wrapper**: `speak.sh` - A simple bash script to pipe text to Piper and play it via `ffplay`.
 
 ## Installation & Usage
-The project is intended to be self-contained within its directory.
+The project is self-contained within its directory. All dependencies are shipped as binaries or model files.
+
+### Prerequisites
+- Linux x86_64 (Piper binary included, compiled for this platform)
+- `ffmpeg` (provides `ffplay` for audio playback) — `sudo apt install ffmpeg`
+- Python 3.9+ with `piper-tts` package: `pip install piper-tts`
+
+### Setup
+No build step required. The Piper binary and GLaDOS ONNX model are included:
+
+```bash
+cd GLaDOS-TTS
+chmod +x speak.sh piper-cli.sh piper
+```
+
+Verify Piper works:
+```bash
+echo "test" | ./piper --model en_US-glados-medium.onnx --output_file /tmp/test.wav
+```
 
 ### Basic Usage
-To speak a phrase:
+To speak a phrase through your speakers:
 ```bash
 ./speak.sh "Hello, Test Subject."
+```
+
+To generate a WAV file instead:
+```bash
+./piper-cli.sh <<< "Hello, Test Subject."
+# Outputs speech.wav in the project directory
 ```
 
 ## Dependencies
