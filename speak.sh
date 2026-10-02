@@ -10,6 +10,11 @@ if [ -z "$1" ]; then
   exit 1
 fi
 
+if ! command -v ffplay &>/dev/null; then
+  echo "Error: ffplay not found. Install ffmpeg first."
+  exit 1
+fi
+
 # Use piper to generate wav, then play it immediately via ffplay
 # -nodisp hides the ffplay window, -autoexit closes it when done
 echo "$1" | "$PIPER_BIN" --model "$MODEL" --output_raw | ffplay -nodisp -autoexit -ar 22050 -f s16le -
