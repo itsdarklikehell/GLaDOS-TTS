@@ -3,3 +3,32 @@
 .DS_Store
 *.swp
 *~
+
+# Generated audio files
+speech.wav
+*.wav
+*.mp3
+*.ogg
+
+# Build artifacts
+*.o
+*.so
+*.a
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# IDE
+.vscode/
+.idea/
+*.sublime-*
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*~
