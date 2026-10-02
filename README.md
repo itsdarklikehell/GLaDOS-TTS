@@ -1,5 +1,11 @@
 # GLaDOS TTS
 
+
+[![CI](https://github.com/itsdarklikehell/GLaDOS-TTS/actions/workflows/ci.yml/badge.svg)](https://github.com/itsdarklikehell/GLaDOS-TTS/actions/workflows/ci.yml)
+[![License](https://img.shields.io/github/license/itsdarklikehell/GLaDOS-TTS)](LICENSE)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
+
+
 Een lokale Text-to-Speech implementatie met de GLaDOS-voicemodel via Piper.
 
 ## Overzicht
