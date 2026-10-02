@@ -61,9 +61,17 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-if [ -z "$TEXT" ] && [ -t 0 ]; then
-    echo "Error: No text provided." >&2
-    usage
+if [ -z "$TEXT" ]; then
+    if [ -t 0 ]; then
+        echo "Error: No text provided." >&2
+        usage
+    fi
+    # Read from stdin if available
+    IFS= read -r TEXT || true
+    if [ -z "$TEXT" ]; then
+        echo "Error: No text provided." >&2
+        usage
+    fi
 fi
 
 # Build piper command
