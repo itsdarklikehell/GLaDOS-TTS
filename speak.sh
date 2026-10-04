@@ -1,6 +1,8 @@
 #!/bin/bash
 # GLaDOS TTS Wrapper
 # Resolve the directory this script lives in, so it works regardless of CWD.
+set -euo pipefail
+
 TTS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PIPER_BIN="$TTS_DIR/piper"
 MODEL="$TTS_DIR/en_US-glados-medium.onnx"
@@ -10,6 +12,8 @@ OUTPUT_FILE=""
 VOLUME=""
 QUIET=false
 EXTRA_ARGS=()
+
+log() { echo "[$(date '+%Y-%m-%d %H:%M:%S')] $*" >&2; }
 
 usage() {
     cat <<EOF
@@ -82,13 +86,13 @@ fi
 
 # Check piper binary exists
 if [ ! -x "$PIPER_BIN" ]; then
-    echo "Error: piper binary not found at $PIPER_BIN" >&2
+    log "Error: piper binary not found at $PIPER_BIN"
     exit 1
 fi
 
 # Check model exists
 if [ ! -f "$MODEL" ]; then
-    echo "Error: model not found at $MODEL" >&2
+    log "Error: model not found at $MODEL"
     exit 1
 fi
 
@@ -101,7 +105,7 @@ if [ -n "$OUTPUT_FILE" ]; then
     fi
     EXIT_CODE=$?
     if [ $EXIT_CODE -ne 0 ]; then
-        echo "Error: piper failed with exit code $EXIT_CODE" >&2
+        log "Error: piper failed with exit code $EXIT_CODE"
         exit $EXIT_CODE
     fi
     if [ "$QUIET" = false ]; then
@@ -110,7 +114,7 @@ if [ -n "$OUTPUT_FILE" ]; then
 else
     # Play via ffplay
     if ! command -v ffplay &>/dev/null; then
-        echo "Error: ffplay not found. Install ffmpeg: sudo apt install ffmpeg" >&2
+        log "Error: ffplay not found. Install ffmpeg: sudo apt install ffmpeg"
         exit 1
     fi
 
@@ -122,7 +126,7 @@ else
     echo "$TEXT" | "$PIPER_BIN" "${PIPER_ARGS[@]}" --output_raw | ffplay "${FFPLAY_ARGS[@]}"
     EXIT_CODE=${PIPESTATUS[0]}
     if [ $EXIT_CODE -ne 0 ]; then
-        echo "Error: piper failed with exit code $EXIT_CODE" >&2
+        log "Error: piper failed with exit code $EXIT_CODE"
         exit $EXIT_CODE
     fi
 fi
