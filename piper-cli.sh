@@ -1,6 +1,8 @@
 #!/bin/bash
 # Piper CLI wrapper for GLaDOS TTS
 # Resolve the directory this script lives in, so it works regardless of CWD.
+set -euo pipefail
+
 TTS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PIPER_BIN="$TTS_DIR/piper"
 MODEL="$TTS_DIR/en_US-glados-medium.onnx"
@@ -9,6 +11,8 @@ MODEL="$TTS_DIR/en_US-glados-medium.onnx"
 OUTPUT_FILE="speech.wav"
 FORCE=false
 QUIET=false
+
+log() { echo "[$(date '+%Y-%m-%d %H:%M:%S')] $*" >&2; }
 
 usage() {
     cat <<EOF
@@ -64,13 +68,13 @@ done
 
 # Check piper binary exists
 if [ ! -x "$PIPER_BIN" ]; then
-    echo "Error: piper binary not found at $PIPER_BIN" >&2
+    log "Error: piper binary not found at $PIPER_BIN"
     exit 1
 fi
 
 # Check model exists
 if [ ! -f "$MODEL" ]; then
-    echo "Error: model not found at $MODEL" >&2
+    log "Error: model not found at $MODEL"
     exit 1
 fi
 
@@ -79,7 +83,7 @@ if [ -f "$OUTPUT_FILE" ] && [ "$FORCE" = false ]; then
     read -p "File '$OUTPUT_FILE' exists. Overwrite? [y/N] " -n 1 -r
     echo
     if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-        echo "Aborted."
+        log "Aborted."
         exit 1
     fi
 fi
@@ -99,7 +103,7 @@ fi
 
 EXIT_CODE=$?
 if [ $EXIT_CODE -ne 0 ]; then
-    echo "Error: piper failed with exit code $EXIT_CODE" >&2
+    log "Error: piper failed with exit code $EXIT_CODE"
     exit $EXIT_CODE
 fi
 
